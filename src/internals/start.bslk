@@ -2,6 +2,7 @@ module std::_internals::start;
 import std::windows::process::threads;
 
 import std::system::io;
+import std::memory;
 
 func main() -> i32;
 
@@ -9,6 +10,7 @@ func _start() -> void {
     // TODO: Get argc and argv from command-line
 
     system_io_init();
+    memory_allocator_init();
 
     let exitCode = main();
     ExitProcess(exitCode);

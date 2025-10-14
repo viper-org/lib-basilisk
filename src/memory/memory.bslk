@@ -1,5 +1,10 @@
 module std::memory;
 
+import std::windows::system::heap;
+
+/*
+ * Memory Manipulation functions
+ */
 func memcpy(dest: i8*, src: i8*, size: usz) -> void {
     for (let i: usz = 0; i < size; i += 1) {
         dest[i] = src[i];
@@ -10,4 +15,23 @@ func memset(dest: i8*, chr: i8, size: usz) -> void {
     for (let i: usz = 0; i < size; i += 1) {
         dest[i] = chr;
     }
+}
+
+
+/*
+ * Memory Allocation functions
+ */
+
+global process_heap: void* = nullptr;
+
+func memory_allocator_init() -> void {
+    process_heap = HeapCreate(0,0,0);
+}
+
+func mem_alloc(size: usz) -> void* {
+    return HeapAlloc(process_heap, 0, size);
+}
+
+func mem_free(mem: void*) -> void {
+   HeapFree(process_heap, 0, mem);
 }

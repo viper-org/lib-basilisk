@@ -1,0 +1,32 @@
+module std::windows::system::heap;
+
+func GetProcessHeap stdcall(
+) -> void*; // HANDLE
+
+func HeapAlloc stdcall(
+    hHeap: void*, // HANDLE
+    dwFlags: i32, // DWORD
+    dwBytes: usz // SIZE_T
+) -> void*; // LPVOID
+
+func HeapFree stdcall(
+    hHeap: void*, // HANDLE
+    dwFlags: i32, // DWORD
+    lpMem: void*, // LPVOID
+) -> bool; // BOOL
+
+func HeapValidate stdcall(
+    hHeap: void*, // HANDLE
+    dwFlags: i32, // DWORD
+    lpMem: void* // LPCVOID
+) -> bool; // BOOL
+
+func HeapCreate stdcall(
+    flOptions: i32, // DWORD
+    dwInitialSize: usz, // SIZE_T
+    dwMaximumSize: usz // SIZE_T
+) -> void*; // HANDLE
+
+func HeapUnlock stdcall(
+    hHeap: void*, // HANDLE
+) -> bool; // BOOL
