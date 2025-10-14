@@ -1,0 +1,17 @@
+module std::_internals::start;
+import std::windows::process::threads;
+
+import std::system::io;
+
+func main() -> i32;
+
+func _start() -> void {
+    // TODO: Get argc and argv from command-line
+
+    system_io_init();
+
+    let exitCode = main();
+    ExitProcess(exitCode);
+
+    // Unreachable since ExitProcess does not return
+}

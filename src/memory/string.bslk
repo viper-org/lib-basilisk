@@ -1,0 +1,9 @@
+module std::string;
+
+func strlen(s: i8*) -> u32 {
+    let i = 0;
+    while (s[i] != 0) {
+        i += 1;
+    }
+    return i;
+}

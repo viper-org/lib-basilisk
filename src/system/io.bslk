@@ -1,0 +1,32 @@
+module std::system::io;
+
+import std::windows::console;
+import std::windows::system::synch;
+
+import std::string;
+
+global stdin:  void* = nullptr;
+global stdout: void* = nullptr;
+global stderr: void* = nullptr;
+
+func system_io_init() -> void {
+    initialize_handles();
+}
+
+func initialize_handles() -> void {
+    stdin  = GetStdHandle(-10);
+    stdout = GetStdHandle(-11);
+    stderr = GetStdHandle(-12);
+}
+
+func print(s: i8*) -> void {
+    WriteConsoleA(stdout, s, strlen(s), nullptr, nullptr);
+}
+
+func getchar() -> i8 {
+    WaitForSingleObject(stdin, 0);
+    let buf: i8;
+    let read: i32 = 0;
+    ReadConsoleA(stdin, &buf, 1, &read, nullptr);
+    return buf;
+}

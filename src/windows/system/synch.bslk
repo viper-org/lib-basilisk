@@ -1,0 +1,6 @@
+module std::windows::system::synch;
+
+func WaitForSingleObject stdcall(
+    hHandle: void*, // HANDLE
+    dwMilliseconds: i32 // DWORD
+) -> i32; // DWORD

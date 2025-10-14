@@ -1,0 +1,5 @@
+module std::windows::process::threads;
+
+func ExitProcess stdcall(
+    uExitCode: u32 // UINT
+) -> void; // VOID
