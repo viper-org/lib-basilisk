@@ -1,22 +1,22 @@
 module std::windows::console;
 
 func GetStdHandle stdcall(
-    nStdHandle: i32 // DWORD
+    nStdHandle: u32 // DWORD
 ) -> void*; // HANDLE
 
 func ReadConsoleA stdcall(
     hConsoleInput: void*, // HANDLE
     lpBuffer: void*, // LPVOID
-    nNumberOfCharsToRead: i32, // DWORD
-    lpNumberOfCharsRead: i32*, // LPDWORD
+    nNumberOfCharsToRead: u32, // DWORD
+    lpNumberOfCharsRead: u32*, // LPDWORD
     pInputControl: void*, // LPVOID
 ) -> bool; // BOOL
 
 func WriteConsoleA stdcall(
     hConsoleOutput: void*, // HANDLE
     lpBuffer: void*, // VOID *
-    nNumberOfCharsToWrite: i32, // DWORD
-    lpNumberOfCharsWritten: i32*, // LPDWORD
+    nNumberOfCharsToWrite: u32, // DWORD
+    lpNumberOfCharsWritten: u32*, // LPDWORD
     lpReserved: void* // LPVOID
 ) -> bool; // BOOL
 

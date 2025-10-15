@@ -1,0 +1,5 @@
+module std::windows::handle;
+
+func CloseHandle stdcall(
+    hObject: void* // HANDLE
+) -> bool; // BOOL

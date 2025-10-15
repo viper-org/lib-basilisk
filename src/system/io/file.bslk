@@ -1,0 +1,52 @@
+module std::system::io::file;
+
+import std::windows::file;
+import std::windows::handle;
+
+type file_t = void*;
+
+/*
+ * File management functions
+ */
+
+func fopen(path: i8*) -> file_t {
+    return CreateFileA(
+        path,
+        GENERIC_READ | GENERIC_WRITE,
+        0,
+        nullptr,
+        OPEN_ALWAYS,
+        FILE_ATTRIBUTE_NORMAL,
+        nullptr
+    );
+}
+
+func fclose(file: file_t) -> void {
+    CloseHandle(file);
+}
+
+
+/*
+ * File access functions
+ */
+
+func fwrite(file: file_t, buf: void*, size: usz) -> usz {
+    let written: u32 = 0;
+    WriteFile(file, buf, size, &written, nullptr);
+    return written;
+}
+
+func fread(file: file_t, buf: void*, size: usz) -> usz {
+    let read: u32 = 0;
+    ReadFile(file, buf, size, &read, nullptr);
+    return read;
+}
+
+
+/*
+ * File position functions
+ */
+
+func frewind(file: file_t) -> void {
+    SetFilePointer(file, 0, nullptr, FILE_BEGIN);
+}

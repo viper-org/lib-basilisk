@@ -1,0 +1,47 @@
+module std::windows::file;
+
+const GENERIC_READ:  i32 = 0x80000000;
+const GENERIC_WRITE: i32 = 0x40000000;
+const CREATE_ALWAYS: i32 = 2;
+const OPEN_EXISTING: i32 = 3;
+const OPEN_ALWAYS:   i32 = 4;
+const FILE_ATTRIBUTE_NORMAL: i32 = 0x00000080;
+
+// TODO: Add security attributes struct and allow passing
+func CreateFileA stdcall(
+    lpFileName: i8*, // LPCSTR
+    dwDesiredAccess: u32, // DWORD
+    dwShareMode: u32, // DWORD
+    lpSecurityAttributes: void*, // LPSECURITY_ATTRIBUTES
+    dwCreationDisposition: u32, // DWORD
+    dwFlagsAndAttributes: u32, // DWORD
+    hTemplateFile: void* // HANDLE
+) -> void*; // HANDLE
+
+// TODO: Add overlapped struct and allow passing
+func WriteFile stdcall(
+    hFile: void*, // HANDLE
+    lpBuffer: void*, // LPCVOID
+    nNumberOfBytesToWrite: u32, // DWORD
+    lpNumberOfBytesWritten: u32*, // LPDWORD
+    lpOverlapped: void* // LPOVERLAPPED
+) -> bool; // BOOL
+
+
+const FILE_BEGIN: u32 = 0;
+
+// TODO: Add overlapped struct and allow passing
+func ReadFile stdcall(
+    hFile: void*, // HANDLE
+    lpBuffer: void*, // LPVOID
+    nNumberOfBytesToRead: u32, // DWORD
+    lpNumberOfBytesRead: u32*, // LPDWORD
+    lpOverlapped: void* // LPOVERLAPPED
+) -> bool; // BOOL
+
+func SetFilePointer stdcall(
+    hFile: void*, // HANDLE
+    lDistanceToMove: i32, // LONG
+    lpDistanceToMoveHigh: i32*, // PLONG
+    dwMoveMethod: u32, // DWORD
+) -> u32; // DWORD
