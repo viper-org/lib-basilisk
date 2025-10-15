@@ -47,6 +47,14 @@ func fread(file: file_t, buf: void*, size: usz) -> usz {
  * File position functions
  */
 
+const SEEK_SET = 0;
+const SEEK_CUR = 1;
+const SEEK_END = 2;
+
+func fseek(file: file_t, off: i32, mode: i32) -> void {
+    SetFilePointer(file, off, nullptr, mode);
+}
+
 func frewind(file: file_t) -> void {
     SetFilePointer(file, 0, nullptr, FILE_BEGIN);
 }
