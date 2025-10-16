@@ -3,14 +3,20 @@ module std::system::io::file;
 import std::windows::file;
 import std::windows::handle;
 
-type file_t = void*;
+import std::memory;
+
+struct FILE {
+    handle: void*;
+    seekpos: u32;
+}
 
 /*
  * File management functions
  */
 
-func fopen(path: i8*) -> file_t {
-    return CreateFileA(
+func fopen(path: i8*) -> FILE* {
+    let ret: FILE* = mem_alloc(sizeof(FILE));
+    let handle = CreateFileA(
         path,
         GENERIC_READ | GENERIC_WRITE,
         0,
@@ -19,10 +25,14 @@ func fopen(path: i8*) -> file_t {
         FILE_ATTRIBUTE_NORMAL,
         nullptr
     );
+    ret->handle = handle;
+    ret->seekpos = 0;
+    return ret;
 }
 
-func fclose(file: file_t) -> void {
-    CloseHandle(file);
+func fclose(file: FILE*) -> void {
+    CloseHandle(file->handle);
+    mem_free(file);
 }
 
 
@@ -30,15 +40,17 @@ func fclose(file: file_t) -> void {
  * File access functions
  */
 
-func fwrite(file: file_t, buf: void*, size: usz) -> usz {
+func fwrite(file: FILE*, buf: void*, size: usz) -> usz {
     let written: u32 = 0;
-    WriteFile(file, buf, size, &written, nullptr);
+    WriteFile(file->handle, buf, size, &written, nullptr);
+    file->seekpos += written;
     return written;
 }
 
-func fread(file: file_t, buf: void*, size: usz) -> usz {
+func fread(file: FILE*, buf: void*, size: usz) -> usz {
     let read: u32 = 0;
-    ReadFile(file, buf, size, &read, nullptr);
+    ReadFile(file->handle, buf, size, &read, nullptr);
+    file->seekpos += read;
     return read;
 }
 
@@ -51,10 +63,15 @@ const SEEK_SET = 0;
 const SEEK_CUR = 1;
 const SEEK_END = 2;
 
-func fseek(file: file_t, off: i32, mode: i32) -> void {
-    SetFilePointer(file, off, nullptr, mode);
+func fseek(file: FILE*, off: i32, mode: i32) -> void {
+    file->seekpos = SetFilePointer(file->handle, off, nullptr, mode);
 }
 
-func frewind(file: file_t) -> void {
-    SetFilePointer(file, 0, nullptr, FILE_BEGIN);
+func frewind(file: FILE*) -> void {
+    SetFilePointer(file->handle, 0, nullptr, FILE_BEGIN);
+    file->seekpos = 0;
+}
+
+func ftell(file: FILE*) -> u32 {
+    return file->seekpos;
 }

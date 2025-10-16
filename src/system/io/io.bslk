@@ -24,8 +24,9 @@ func print(s: i8*) -> void {
 }
 
 func getchar() -> i8 {
-    WaitForSingleObject(stdin, 0);
-    let buf: i8;
-    ReadConsoleA(stdin, &buf, 1, nullptr, nullptr);
+    WaitForSingleObject(stdin, 0xFFFFFFFF);
+    let buf: i8 = 0;
+    let _: u32;
+    ReadConsoleA(stdin, &buf, 1, &_, nullptr);
     return buf;
 }

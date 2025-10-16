@@ -1,7 +1,7 @@
 module std::windows::console;
 
 func GetStdHandle stdcall(
-    nStdHandle: u32 // DWORD
+    nStdHandle: i32 // DWORD
 ) -> void*; // HANDLE
 
 func ReadConsoleA stdcall(
