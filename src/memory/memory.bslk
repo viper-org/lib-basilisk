@@ -17,6 +17,13 @@ func memset(dest: i8*, chr: i8, size: usz) -> void {
     }
 }
 
+func memchr(mem: i8*, chr: i8, size: usz) -> i8* {
+    for (let i: usz = 0; i < size; i += 1) {
+        if (mem[i] == chr) return &mem[i];
+    }
+    return nullptr;
+}
+
 
 /*
  * Memory Allocation functions
