@@ -54,6 +54,20 @@ func fread(file: FILE*, buf: void*, size: usz) -> usz {
     return read;
 }
 
+func fputc(file: FILE*, c: i8) -> void {
+    let written: u32 = 0;
+    WriteFile(file->handle, &c, 1, &written, nullptr);
+    file->seekpos += written;
+}
+
+func fgetc(file: FILE*) -> i8 {
+    let buf: i8 = -1;
+    let read: u32 = 0;
+    ReadFile(file->handle, &buf, 1, &read, nullptr);
+    file->seekpos += read;
+    return buf;
+}
+
 
 /*
  * File position functions
