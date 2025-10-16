@@ -1,0 +1,10 @@
+module std::windows::winbase;
+
+func MoveFileA stdcall(
+    lpExistingFileName: i8*, // LPCSTR
+    lpNewFileName: i8* // LPCSTR
+) -> bool; // BOOL
+
+func DeleteFileA stdcall(
+    lpFileName: i8* // LPCSTR
+) -> bool; // BOOL

@@ -1,6 +1,7 @@
 module std::system::io::file;
 
 import std::windows::file;
+import std::windows::winbase;
 import std::windows::handle;
 
 import std::memory;
@@ -88,4 +89,17 @@ func frewind(file: FILE*) -> void {
 
 func ftell(file: FILE*) -> u32 {
     return file->seekpos;
+}
+
+
+/*
+ * File operation functions
+ */
+
+func rename(old: i8*, new: i8*) -> void {
+    MoveFileA(old, new);
+}
+
+func remove(name: i8*) -> void {
+    DeleteFileA(name);
 }
